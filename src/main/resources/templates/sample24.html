@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Sample 2-5</title>
+</head>
+
+<body>
+
+  <h1>Sample2-5</h1>
+
+  <form action="/sample25" method="post">
+    <p>
+      <input type="text" name="kakeru1">
+      ×
+      <input type="text" name="kakeru2">
+    </p>
+
+    <button type="submit">計算</button>
+  </form>
+
+  <p th:if="${result != null}">
+    結果：
+    <span th:text="${result}"></span>
+  </p>
+  <a href="/sample26">次のサンプルへ</a>
+
+</body>
+
+</html>

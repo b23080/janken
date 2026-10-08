@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Sample 2-7</title>
+</head>
+
+<body>
+
+  <h1>Sample2-7</h1>
+
+  <form action="/sample26" method="post">
+    <p>
+      最小値：
+      <input type="text" name="min">
+    </p>
+
+    <p>
+      最大値：
+      <input type="text" name="max">
+    </p>
+
+    <button type="submit">計算</button>
+  </form>
+
+  <div th:if="${numList != null}">
+    <p th:each="num : ${numList}" th:text="${num}"></p>
+
+    <p>合計：[[${sum}]]</p>
+  </div>
+
+</body>
+
+</html>
