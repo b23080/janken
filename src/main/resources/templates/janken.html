@@ -12,7 +12,18 @@
 
   <p th:if="${username != null}">
     Hi <span th:text="${username}"></span>
+    <a th:href="@{/janken(hand='グー', username=${username})}">グー</a>
+    <a th:href="@{/janken(hand='チョキ', username=${username})}">チョキ</a>
+    <a th:href="@{/janken(hand='パー', username=${username})}">パー</a>
+
+  <div th:if="${myHand != null}">
+    <p>あなたの手：<span th:text="${myHand}"></span></p>
+    <p>相手の手：<span th:text="${cpuHand}"></span></p>
+    <p>結果：<span th:text="${result}"></span></p>
+  </div>
   </p>
+
+
 
   <p>じゃんけんを始めましょう！</p>
 
