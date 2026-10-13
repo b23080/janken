@@ -1,5 +1,7 @@
 package oit.is.z3183.kaizi.janken.controller;
 
+import java.security.Principal;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,12 +13,12 @@ public class JankenController {
 
   @GetMapping("/janken")
   public String janken(
-      @RequestParam(required = false) String username,
       @RequestParam(required = false) String hand,
+      Principal principal,
       Model model) {
 
-    if (username != null) {
-      model.addAttribute("username", username);
+    if (principal != null) {
+      model.addAttribute("username", principal.getName());
     }
 
     if (hand != null) {
