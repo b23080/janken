@@ -10,6 +10,13 @@
 
   <h1>じゃんけんゲーム</h1>
 
+  <p> ログインユーザ： <span th:text="${username}"></span> </p>
+
+  <h2>エントリー</h2>
+  <ul>
+    <li th:each="user : ${users}" th:text="${user}"> </li>
+  </ul>
+
   <p th:if="${username != null}">
     Hi <span th:text="${username}"></span>
     <a th:href="@{/janken(hand='グー', username=${username})}">グー</a>
@@ -23,7 +30,7 @@
   </div>
   </p>
 
-
+  <p> <a th:href="@{/logout}">ログアウト</a> </p>
 
   <p>じゃんけんを始めましょう！</p>
 
