@@ -17,6 +17,15 @@
     <li th:each="user : ${users}" th:text="${user}"> </li>
   </ul>
 
+
+
+  <p>
+  <div th:each="user, stat : ${users1}">
+    <!-- ループ変数の user を指定し、th:text を使う -->
+    <span th:text="${user.userName}">ユーザー名</span>
+  </div>
+  </p>
+
   <p th:if="${username != null}">
     Hi <span th:text="${username}"></span>
     <a th:href="@{/janken(hand='グー', username=${username})}">グー</a>
