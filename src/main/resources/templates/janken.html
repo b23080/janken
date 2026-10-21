@@ -33,12 +33,11 @@
   </div>
   </p>
 
-  <p>
-  <div th:each="user, stat : ${users1}">
-    <!-- ループ変数の user を指定し、th:text を使う -->
-    <span th:text="${user.userName}">ユーザー名</span>
+  <div th:each="user : ${users1}">
+    <a th:href="@{/match(username=${user.userName})}">
+      <span th:text="${user.userName}">ユーザー名</span>
+    </a>
   </div>
-  </p>
 
 
 
