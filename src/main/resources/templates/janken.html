@@ -17,7 +17,21 @@
     <li th:each="user : ${users}" th:text="${user}"> </li>
   </ul>
 
-
+  <h2>試合結果</h2>
+  <p>
+  <div th:each="match, stat : ${matches1}">
+    <span>ID:</span>
+    <span th:text="${match.id}"></span>
+    <span>user1:</span>
+    <span th:text="${match.user1}"></span>
+    <span>user2:</span>
+    <span th:text="${match.user2}"></span>
+    <span>user1Hand:</span>
+    <span th:text="${match.user1Hand}"></span>
+    <span>user2Hand：</span>
+    <span th:text="${match.user2Hand}"></span>
+  </div>
+  </p>
 
   <p>
   <div th:each="user, stat : ${users1}">
@@ -25,6 +39,8 @@
     <span th:text="${user.userName}">ユーザー名</span>
   </div>
   </p>
+
+
 
   <p th:if="${username != null}">
     Hi <span th:text="${username}"></span>
