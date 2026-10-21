@@ -75,4 +75,18 @@ public class JankenController {
     model.addAttribute("users1", users);
     return "janken.html";
   }
+
+  @GetMapping("/match")
+  public String match(
+        @RequestParam("username") String username,
+        Principal principal,
+        Model model) {
+
+    // ログインしているユーザー名を取得
+    String loginUser = principal.getName();
+    model.addAttribute("loginUser", loginUser);
+
+    model.addAttribute("username", username);
+    return "match.html";
+  }
 }
