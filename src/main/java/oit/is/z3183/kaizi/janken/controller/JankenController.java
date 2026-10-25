@@ -78,15 +78,61 @@ public class JankenController {
 
   @GetMapping("/match")
   public String match(
-        @RequestParam("username") String username,
-        Principal principal,
-        Model model) {
+      @RequestParam("id") int id,
+      Principal principal,
+      Model model) {
 
     // ログインしているユーザー名を取得
     String loginUser = principal.getName();
     model.addAttribute("loginUser", loginUser);
 
-    model.addAttribute("username", username);
+    User opponent = userMapper.selectById(id);
+    model.addAttribute("opponent", opponent);
+    return "match.html";
+  }
+
+  @GetMapping("/fight")
+  public String fight(
+      @RequestParam("id") int id,
+      @RequestParam("hand") String hand,
+      Principal principal,
+      Model model) {
+    String loginUser = principal.getName();
+    model.addAttribute("loginUser", loginUser);
+    User myUser = userMapper.selectByUserName(loginUser);
+
+    User opponent = userMapper.selectById(id);
+    model.addAttribute("opponent", opponent);
+
+    String cpuHand = "Gu";
+    String result;
+
+    if (hand.equals(cpuHand)) {
+      result = "引き分け";
+    } else if ((hand.equals("Gu") && cpuHand.equals("Choki")) ||
+        (hand.equals("Choki") && cpuHand.equals("Pa")) ||
+        (hand.equals("Pa") && cpuHand.equals("Gu"))) {
+      result = "勝ち";
+    } else {
+      result = "負け";
+    }
+
+    model.addAttribute("result", result);
+
+    Match match = new Match();
+    match.setUser1(myUser.getID());
+    match.setUser2(opponent.getID());
+    match.setUser1Hand(hand);
+    match.setUser2Hand(cpuHand);
+
+    matchMapper.insertMatch(match);
+
+    // 画面表示用のデータを渡す
+    model.addAttribute("loginUser", loginUser);
+    model.addAttribute("opponent", opponent);
+    model.addAttribute("myHand", hand);
+    model.addAttribute("cpuHand", cpuHand);
+
     return "match.html";
   }
 }

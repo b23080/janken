@@ -11,12 +11,17 @@ import org.apache.ibatis.annotations.Select;
 @Mapper
 public interface UserMapper {
 
-@Select("SELECT * FROM users")
+  @Select("SELECT * FROM users")
   ArrayList<User> selectAll();
 
   @Select("SELECT id,userName from users where id = #{id}")
   User selectById(int id);
 
+  @Select("SELECT id,userName from users where id = #{userName}")
+  User selectByName(int username);
+
+  @Select("SELECT * FROM users WHERE userName = #{userName}")
+  User selectByUserName(String userName);
 
   /**
    * #{userName}などはinsertの引数にあるChamberクラスのフィールドを表しています 引数に直接String
@@ -27,7 +32,5 @@ public interface UserMapper {
    *
    * @param users
    */
-
-
 
 }
