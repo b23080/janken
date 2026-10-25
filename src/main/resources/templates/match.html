@@ -10,8 +10,26 @@
 
   <h1>match</h1>
   <p>
-    <span th:text="${loginUser}"></span><span>vs</span><span th:text="${username}"></span>
+    <span th:text="${loginUser}"></span><span>vs</span><span th:text="${opponent.userName}"></span>
   </p>
+
+  <p>
+    <a th:href="@{/fight(id=${opponent.ID},hand='Gu')}">グー</a>
+    <a th:href="@{/fight(id=${opponent.ID},hand='Choki')}">チョキ</a>
+    <a th:href="@{/fight(id=${opponent.ID},hand='Pa')}">パー</a>
+  </p>
+
+  <div th:if="${myHand != null}">
+    <p>
+      自分の手：<span th:text="${myHand}"></span>
+    </p>
+    <p>
+      相手の手：<span th:text="${cpuHand}"></span>
+    </p>
+    <p>勝敗：<span th:text="${result}"></span></p>
+  </div>
+
+  <a href="/janken">もどる</a>
 
 
 </body>
