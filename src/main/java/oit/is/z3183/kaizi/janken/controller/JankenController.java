@@ -111,14 +111,31 @@ public class JankenController {
 
     User opponent = userMapper.selectById(id);
 
-    MatchInfo info = new MatchInfo();
-    info.setUser1(myUser.getID());
-    info.setUser2(opponent.getID());
-    info.setUser1Hand(hand);
-    info.setIsActive(true);
-    matchInfoMapper.insertMatchInfo(info);
+    MatchInfo waiting = matchInfoMapper.selectWaiting(opponent.getID(), myUser.getID());
 
-    model.addAttribute("username", loginUser);
+    if (waiting == null) {
+      // 自分が先手：待機レコードを登録
+      MatchInfo info = new MatchInfo();
+      info.setUser1(myUser.getID());
+      info.setUser2(opponent.getID());
+      info.setUser1Hand(hand);
+      info.setIsActive(true);
+      matchInfoMapper.insertMatchInfo(info);
+
+      model.addAttribute("username", loginUser);
+      return "wait.html";
+    }
+
+    Match match = new Match();
+    match.setUser1(waiting.getUser1()); // 先手 A
+    match.setUser2(myUser.getID()); // 後手 B(自分)
+    match.setUser1Hand(waiting.getUser1Hand());
+    match.setUser2Hand(hand);
+    match.setIsActive(true);
+    matchMapper.insertMatch(match);
+
+    // 待機状態を解除
+    matchInfoMapper.deactivate(waiting.getId());
     return "wait.html";
   }
 

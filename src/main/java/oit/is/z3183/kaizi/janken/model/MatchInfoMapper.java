@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Update;
 
 @Mapper
 public interface MatchInfoMapper {
@@ -15,4 +17,10 @@ public interface MatchInfoMapper {
 
   @Select("SELECT * FROM matchinfo WHERE isActive = TRUE")
   ArrayList<MatchInfo> selectActive();
+
+    @Select("SELECT * FROM matchinfo WHERE isActive = TRUE AND user1 = #{opponentId} AND user2 = #{myId} ORDER BY id LIMIT 1")
+  MatchInfo selectWaiting(@Param("opponentId") int opponentId, @Param("myId") int myId);
+
+  @Update("UPDATE matchinfo SET isActive = FALSE WHERE id = #{id}")
+  int deactivate(int id);
 }
