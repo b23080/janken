@@ -14,9 +14,9 @@
   </p>
 
   <p>
-    <a th:href="@{/fight(id=${opponent.ID},hand='Gu')}">グー</a>
-    <a th:href="@{/fight(id=${opponent.ID},hand='Choki')}">チョキ</a>
-    <a th:href="@{/fight(id=${opponent.ID},hand='Pa')}">パー</a>
+    <a th:href="@{/wait(id=${opponent.ID},hand='Gu')}">グー</a>
+    <a th:href="@{/wait(id=${opponent.ID},hand='Choki')}">チョキ</a>
+    <a th:href="@{/wait(id=${opponent.ID},hand='Pa')}">パー</a>
   </p>
 
   <div th:if="${myHand != null}">

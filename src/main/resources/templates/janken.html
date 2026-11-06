@@ -19,6 +19,14 @@
     </li>
   </ul>
 
+  <h2>アクティブな試合</h2>
+  <div th:each="m : ${activeMatches}">
+    <span>ID:</span><span th:text="${m.id}"></span>
+    <span>user1:</span><span th:text="${m.user1}"></span>
+    <span>user2:</span><span th:text="${m.user2}"></span>
+    <span>user1Hand:</span><span th:text="${m.user1Hand}"></span>
+  </div>
+
   <h2>試合結果</h2>
   <p>
   <div th:each="match, stat : ${matches1}">

@@ -17,6 +17,9 @@ import oit.is.z3183.kaizi.janken.model.User;
 import oit.is.z3183.kaizi.janken.model.UserMapper;
 import oit.is.z3183.kaizi.janken.model.Entry;
 
+import oit.is.z3183.kaizi.janken.model.MatchInfo;
+import oit.is.z3183.kaizi.janken.model.MatchInfoMapper;
+
 @Controller
 public class JankenController {
 
@@ -26,6 +29,8 @@ public class JankenController {
   UserMapper userMapper;
   @Autowired
   MatchMapper matchMapper;
+  @Autowired
+  MatchInfoMapper matchInfoMapper;
 
   @GetMapping("/janken")
   public String janken(
@@ -47,6 +52,8 @@ public class JankenController {
 
     ArrayList<Match> matches = matchMapper.selectAllMatch();
     model.addAttribute("matches1", matches);
+    ArrayList<MatchInfo> activeMatches = matchInfoMapper.selectActive();
+    model.addAttribute("activeMatches", activeMatches);
     // ArrayList<Match> matches = matchMapper.selectAllMatch();
     // System.out.println("試合結果の件数：" + matches.size());
 
@@ -89,6 +96,30 @@ public class JankenController {
     User opponent = userMapper.selectById(id);
     model.addAttribute("opponent", opponent);
     return "match.html";
+  }
+
+  @GetMapping("/wait")
+  public String wait(
+      @RequestParam("id") int id,
+      @RequestParam("hand") String hand,
+      Principal principal,
+      Model model) {
+
+    String loginUser = principal.getName();
+
+    User myUser = userMapper.selectByUserName(loginUser);
+
+    User opponent = userMapper.selectById(id);
+
+    MatchInfo info = new MatchInfo();
+    info.setUser1(myUser.getID());
+    info.setUser2(opponent.getID());
+    info.setUser1Hand(hand);
+    info.setIsActive(true);
+    matchInfoMapper.insertMatchInfo(info);
+
+    model.addAttribute("username", loginUser);
+    return "wait.html";
   }
 
   @GetMapping("/fight")
