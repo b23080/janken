@@ -8,8 +8,40 @@
 
 <body>
   <p>Hi <span th:text="${username}"></span></p>
-  <p>相手の手を待ってます</p>
-  <a href="/janken">もどる</a>
+  <p id="waiting">相手の手を待ってます</p>
+
+  <div id="result" style="display:none">
+    <h2>対戦結果</h2>
+    <p>あなたの手：<span id="myHand"></span></p>
+    <p>相手の手：<span id="opHand"></span></p>
+    <p>勝敗：<span id="kekka"></span></p>
+    <a href="/janken">戻る</a>
+  </div>
+
+  <script>
+    function judge(my, op) {
+      if (my === op) return "引き分け";
+      if ((my === "Gu" && op === "Choki") ||
+          (my === "Choki" && op === "Pa") ||
+          (my === "Pa" && op === "Gu")) return "勝ち";
+      return "負け";
+    }
+
+    const sse = new EventSource("/wait/result");
+    sse.onmessage = function (event) {
+      const matches = JSON.parse(event.data);
+      const m = matches[0];
+
+      document.getElementById("myHand").textContent = m.user1Hand;
+      document.getElementById("opHand").textContent = m.user2Hand;
+      document.getElementById("kekka").textContent = judge(m.user1Hand, m.user2Hand);
+
+      document.getElementById("waiting").style.display = "none";
+      document.getElementById("result").style.display = "block";
+
+      sse.close(); // 自動再接続を止める
+    };
+  </script>
 </body>
 
 </html>
