@@ -20,6 +20,9 @@ import oit.is.z3183.kaizi.janken.model.Entry;
 import oit.is.z3183.kaizi.janken.model.MatchInfo;
 import oit.is.z3183.kaizi.janken.model.MatchInfoMapper;
 
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
+import oit.is.z3183.kaizi.janken.service.AsyncKekka;
+
 @Controller
 public class JankenController {
 
@@ -31,6 +34,8 @@ public class JankenController {
   MatchMapper matchMapper;
   @Autowired
   MatchInfoMapper matchInfoMapper;
+  @Autowired
+  AsyncKekka asyncKekka;
 
   @GetMapping("/janken")
   public String janken(
@@ -182,5 +187,14 @@ public class JankenController {
     model.addAttribute("cpuHand", cpuHand);
 
     return "match.html";
+  }
+
+  @GetMapping("/wait/result")
+  public SseEmitter waitResult(Principal principal) {
+    User myUser = userMapper.selectByUserName(principal.getName());
+
+    final SseEmitter emitter = new SseEmitter(600_000L); // 10分
+    this.asyncKekka.asyncShowResult(emitter, myUser.getID());
+    return emitter;
   }
 }
